@@ -127,22 +127,24 @@ class SearchFilterProvider extends ChangeNotifier {
       category.isSelected = null;
       switch (category.expandedValue) {
         case FilterItemsConst.muscleExpandedValue:
-          changeSelectedFilterMap(muscle: '');
+          selectedFilterMap.update(
+              MovesServiceConst.queryParameterMuscles, (value) => '');
           break;
         case FilterItemsConst.movesTypeExpandedValue:
-          changeSelectedFilterMap(type: '');
+          selectedFilterMap.update(
+              MovesServiceConst.queryParameterTypes, (value) => '');
           break;
       }
     } else {
       category.isSelected = index;
       switch (category.expandedValue) {
         case FilterItemsConst.muscleExpandedValue:
-          changeSelectedFilterMap(
-              muscle: category.filterItemList[index].headerValue);
+          selectedFilterMap.update(MovesServiceConst.queryParameterMuscles,
+              (value) => category.filterItemList[index].expandedValue);
           break;
         case FilterItemsConst.movesTypeExpandedValue:
-          changeSelectedFilterMap(
-              type: category.filterItemList[index].headerValue);
+          selectedFilterMap.update(MovesServiceConst.queryParameterTypes,
+              (value) => category.filterItemList[index].expandedValue);
           break;
       }
     }
