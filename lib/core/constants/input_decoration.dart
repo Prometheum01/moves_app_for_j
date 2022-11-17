@@ -2,21 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:moves_app_for_job/core/constants/radius_const.dart';
 import 'package:moves_app_for_job/product/constants/text_constants.dart';
 
+import '../../product/constants/color_constants.dart';
+
 class SearchBarInputDecoration extends InputDecoration {
-  const SearchBarInputDecoration()
+  SearchBarInputDecoration({required void Function() onPressed})
       : super(
-          fillColor: Colors.white,
-          enabledBorder: const SearchBarOutlineBorder(),
-          focusedBorder: const SearchBarOutlineBorder(),
+          fillColor: ColorConst.blizzardBlue,
+          enabledBorder: const _SearchBarOutlineBorder(),
+          focusedBorder: const _SearchBarOutlineBorder(),
           filled: true,
+          suffixIcon: IconButton(
+            onPressed: () {
+              onPressed.call();
+            },
+            splashRadius: 24,
+            splashColor: ColorConst.skyBlueCrayola,
+            icon: const Icon(
+              Icons.search,
+              color: ColorConst.skyBlueCrayola,
+            ),
+          ),
           hintText: TextConstants.searchBarHintText,
         );
 }
 
-class SearchBarOutlineBorder extends OutlineInputBorder {
-  const SearchBarOutlineBorder()
+class _SearchBarOutlineBorder extends OutlineInputBorder {
+  const _SearchBarOutlineBorder()
       : super(
-          borderRadius: const RadiusConst.mediumAll(),
+          borderRadius: const RadiusConst.largeAll(),
           borderSide: const BorderSide(
             color: Colors.transparent,
           ),

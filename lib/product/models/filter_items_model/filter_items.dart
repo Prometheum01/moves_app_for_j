@@ -1,25 +1,8 @@
-import 'package:moves_app_for_job/product/constants/text_constants.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-class FilterCategory {
-  final String headerValue;
-  final String expandedValue;
-  final List<FilterItems> filterItemList;
-  bool isExpanded;
-  int? isSelected;
+part 'filter_items.g.dart';
 
-  FilterCategory({
-    required this.headerValue,
-    required this.expandedValue,
-    required this.filterItemList,
-    this.isExpanded = false,
-    this.isSelected,
-  });
-
-  String get selectedItemValue => isSelected != null
-      ? filterItemList[isSelected!].headerValue
-      : TextConstants.filterSelectedNoneText;
-}
-
+@JsonSerializable()
 class FilterItems {
   FilterItems({
     required this.expandedValue,
@@ -28,4 +11,9 @@ class FilterItems {
 
   String expandedValue;
   String headerValue;
+
+  factory FilterItems.fromJson(Map<String, dynamic> json) =>
+      _$FilterItemsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FilterItemsToJson(this);
 }

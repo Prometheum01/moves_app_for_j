@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:moves_app_for_job/core/constants/padding_const.dart';
-import 'package:moves_app_for_job/core/provider/search_filter_provider.dart';
 import 'package:moves_app_for_job/features/pages/home_page/view_model/home_page_view_model.dart';
+import 'package:moves_app_for_job/product/constants/color_constants.dart';
 import 'package:moves_app_for_job/product/constants/text_constants.dart';
 import 'package:moves_app_for_job/product/services/move_service/move_service_const.dart';
-import 'package:provider/provider.dart';
 
-import '../../../../product/widgets/expansion_list.dart';
 import '../../../../product/widgets/moves_widget.dart';
 import '../../../../product/widgets/search_bar.dart';
 
@@ -23,7 +21,6 @@ class _HomePageViewState extends HomePageViewModel {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
@@ -31,14 +28,17 @@ class _HomePageViewState extends HomePageViewModel {
             pinned: true,
             snap: true,
             floating: true,
-            backgroundColor: Colors.grey,
+            backgroundColor: Colors.transparent,
             centerTitle: true,
+            elevation: 0,
             flexibleSpace: FlexibleSpaceBar(
               titlePadding: const PaddingConst.mediumHorizontalSymmetric(),
               title: Row(
                 children: [
                   Expanded(
                     child: SearchBar(
+                      textStyle: context.textTheme.headline6
+                          ?.copyWith(color: ColorConst.skyBlueCrayola),
                       controller: searchBarController,
                       search: (name) {
                         setState(() {
@@ -50,42 +50,7 @@ class _HomePageViewState extends HomePageViewModel {
                   ),
                   IconButton(
                     onPressed: () async {
-                      final Map filtered = await showModalBottomSheet(
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (context) => Padding(
-                          padding: const PaddingConst.mediumAll(),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text(
-                                      TextConstants.filterBackButtonText,
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop(context
-                                          .read<SearchFilterProvider>()
-                                          .selectedFilterMap);
-                                    },
-                                    child: const Text(
-                                      TextConstants.filterSaveButtonText,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const ExpansionListItem(),
-                            ],
-                          ),
-                        ),
-                      );
+                      final Map filtered = await showFilterSheet();
 
                       searchMoves(
                         name: searchedName,
@@ -95,10 +60,11 @@ class _HomePageViewState extends HomePageViewModel {
                       );
                     },
                     splashRadius: 24,
+                    splashColor: ColorConst.skyBlueCrayola,
                     tooltip: TextConstants.filterText,
                     icon: const Icon(
                       Icons.list,
-                      color: Colors.white,
+                      color: ColorConst.skyBlueCrayola,
                     ),
                   )
                 ],
@@ -112,7 +78,10 @@ class _HomePageViewState extends HomePageViewModel {
                 child: isLoading
                     ? const CircularProgressIndicator()
                     : Text(
-                        '${movesList != null ? movesList!.length : '0'} results found.'),
+                        '${movesList != null ? movesList!.length : '0'} ${TextConstants.resultFoundText}',
+                        style: context.textTheme.headline6
+                            ?.copyWith(color: ColorConst.skyBlueCrayola),
+                      ),
               ),
             ),
           ),

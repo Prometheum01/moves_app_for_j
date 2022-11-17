@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:moves_app_for_job/product/constants/text_constants.dart';
 import 'package:moves_app_for_job/product/services/move_service/move_service_const.dart';
 
+import '../../product/models/filter_items_model/filter_category.dart';
 import '../../product/models/filter_items_model/filter_items.dart';
 import '../../product/models/filter_items_model/filter_items_consts.dart';
 
